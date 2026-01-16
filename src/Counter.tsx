@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 
 export const Counter = () => {
-    const { count, inc, dec, reset } = useCounter(0)
+    const { count, inc, dec, reset, changeStep } = useCounter()
 
     return (
         <>
@@ -10,11 +10,13 @@ export const Counter = () => {
             <button onClick={inc}>Увеличить</button>
             <button onClick={dec}>Уменьшить</button>
             <button onClick={reset}>Сбросить</button>
+            <button onClick={changeStep}>Установить шаг 5</button>
         </>
     )
 }
 
-const useCounter = (startValue = 0) => {
+const useCounter = (startValue = 1, startStep = 1) => {
+    const [step, setStep] = useState(startStep)
     const [count, setCount] = useState(startValue)
 
     useEffect(() => {
@@ -24,16 +26,21 @@ const useCounter = (startValue = 0) => {
     }, [])
 
     const inc = () => {
-        setCount(count + 1)
+        setCount(count + step)
     }
 
     const dec = () => {
-        setCount(count - 1)
+        setCount(count - step)
     }
 
     const reset = () => {
         setCount(startValue)
     }
 
-    return { count, inc, dec, reset }
+    const changeStep = () => {
+        setStep(5)
+        alert('Шаг изменен на 5')
+    }
+
+    return { count, inc, dec, reset, changeStep }
 }
